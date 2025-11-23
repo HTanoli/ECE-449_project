@@ -30,8 +30,11 @@ class ScottDickController(KesslerController):
         # Declare variables
         bullet_time = ctrl.Antecedent(np.arange(0,1.0,0.002), 'bullet_time')
         theta_delta = ctrl.Antecedent(np.arange(-1*math.pi/30,math.pi/30,0.1), 'theta_delta') # Radians due to Python
+        asteroid_dist = ctrl.Antecedent(np.arange(0, 800, 1), 'asteroid_dist')
         ship_turn = ctrl.Consequent(np.arange(-180,180,1), 'ship_turn') # Degrees due to Kessler
         ship_fire = ctrl.Consequent(np.arange(-1,1,0.1), 'ship_fire')
+        ship_thrust = ctrl.Consequent(np.arange(-480, 480, 1), 'ship_thrust')
+        ship_mine = ctrl.Consequent(np.arange(-1, 1, 0.1), 'ship_mine')
         
         #Declare fuzzy sets for bullet_time (how long it takes for the bullet to reach the intercept point)
         bullet_time['S'] = fuzz.trimf(bullet_time.universe,[0,0,0.05])
@@ -47,6 +50,11 @@ class ScottDickController(KesslerController):
         theta_delta['PS'] = fuzz.trimf(theta_delta.universe, [-1*math.pi/90,math.pi/90,2*math.pi/90])
         theta_delta['PM'] = fuzz.trimf(theta_delta.universe, [math.pi/90,2*math.pi/90, math.pi/30])
         theta_delta['PL'] = fuzz.smf(theta_delta.universe,2*math.pi/90,math.pi/30)
+
+        # Set for asteroid distance
+        asteroid_dist['Close'] = fuzz.zmf(asteroid_dist.universe, 0, 200)
+        asteroid_dist['Medium'] = fuzz.trimf(asteroid_dist.universe, [100, 300, 500])
+        asteroid_dist['Far'] = fuzz.smf(asteroid_dist.universe, 400, 800)
         
         # Declare fuzzy sets for the ship_turn consequent; this will be returned as turn_rate.
         # Hard-coded for a game step of 1/30 seconds
