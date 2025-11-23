@@ -1,2 +1,4 @@
 ./kesslergame-2.4.0-py3-none-any.whl
-
+scikit-fuzzy
+numpy
+matplotlib
