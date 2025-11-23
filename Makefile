@@ -6,7 +6,6 @@ PYTHON := python3
 PIP := $(VENV_NAME)/bin/pip
 PYTHON_VENV := $(VENV_NAME)/bin/python
 REQUIREMENTS := requirements.txt
-WHEEL_FILE := kesslergame-2.4.0-py3-none-any.whl
 
 # Default target
 .PHONY: all
@@ -27,13 +26,7 @@ install: venv
 	@if [ -f $(REQUIREMENTS) ]; then \
 		$(PIP) install -r $(REQUIREMENTS); \
 	else \
-		echo "No requirements.txt found. Skipping requirements installation."; \
-	fi
-	@if [ -f $(WHEEL_FILE) ]; then \
-		echo "Installing wheel file: $(WHEEL_FILE)"; \
-		$(PIP) install $(WHEEL_FILE); \
-	else \
-		echo "No wheel file found at $(WHEEL_FILE). Skipping wheel installation."; \
+		echo "No requirements.txt found. Skipping dependency installation."; \
 	fi
 	@echo "Dependencies installed successfully!"
 
@@ -55,40 +48,25 @@ freeze:
 	$(PIP) freeze > $(REQUIREMENTS)
 	@echo "Dependencies frozen to $(REQUIREMENTS)"
 
-# Install wheel file only
-.PHONY: install-wheel
-install-wheel: venv
-	@if [ -f $(WHEEL_FILE) ]; then \
-		echo "Installing wheel file: $(WHEEL_FILE)"; \
-		$(PIP) install $(WHEEL_FILE); \
-	else \
-		echo "ERROR: Wheel file not found at $(WHEEL_FILE)"; \
-		exit 1; \
-	fi
-
 # Run Python in virtual environment
 .PHONY: run
 run:
 	$(PYTHON_VENV) main.py
 
-# Activate virtual environment (info only)
+# Show help
 .PHONY: help
 help:
 	@echo "Python Virtual Environment Makefile"
 	@echo ""
 	@echo "Available targets:"
-	@echo "  make             - Create venv and install dependencies"
-	@echo "  make venv        - Create virtual environment only"
-	@echo "  make install     - Install dependencies and wheel file"
-	@echo "  make install-wheel - Install wheel file only"
-	@echo "  make clean       - Remove virtual environment"
-	@echo "  make reinstall   - Clean and reinstall everything"
-	@echo "  make freeze      - Save current dependencies to requirements.txt"
-	@echo "  make run         - Run main.py in virtual environment"
-	@echo "  make help        - Show this help message"
-	@echo ""
-	@echo "Configuration:"
-	@echo "  WHEEL_FILE = $(WHEEL_FILE)"
+	@echo "  make           - Create venv and install dependencies"
+	@echo "  make venv      - Create virtual environment only"
+	@echo "  make install   - Install dependencies from requirements.txt"
+	@echo "  make clean     - Remove virtual environment"
+	@echo "  make reinstall - Clean and reinstall everything"
+	@echo "  make freeze    - Save current dependencies to requirements.txt"
+	@echo "  make run       - Run main.py in virtual environment"
+	@echo "  make help      - Show this help message"
 	@echo ""
 	@echo "To activate the virtual environment manually:"
 	@echo "  source $(VENV_NAME)/bin/activate"
