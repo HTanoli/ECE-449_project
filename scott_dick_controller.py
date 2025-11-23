@@ -21,7 +21,6 @@ import matplotlib as plt
 
 class ScottDickController(KesslerController):
     
-    
         
     def __init__(self):
         self.eval_frames = 0 #What is this?
