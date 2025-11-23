@@ -14,9 +14,13 @@ all: venv install
 # Create virtual environment
 .PHONY: venv
 venv:
-	@echo "Creating virtual environment..."
-	$(PYTHON) -m venv $(VENV_NAME)
-	@echo "Virtual environment created in ./$(VENV_NAME)"
+	@if [ ! -d "$(VENV_NAME)" ]; then \
+		echo "Creating virtual environment..."; \
+		$(PYTHON) -m venv $(VENV_NAME); \
+		echo "Virtual environment created in ./$(VENV_NAME)"; \
+	else \
+		echo "Virtual environment already exists in ./$(VENV_NAME)"; \
+	fi
 
 # Install dependencies
 .PHONY: install
@@ -43,14 +47,14 @@ reinstall: clean all
 
 # Freeze current dependencies
 .PHONY: freeze
-freeze:
+freeze: venv
 	@echo "Freezing dependencies to requirements.txt..."
 	$(PIP) freeze > $(REQUIREMENTS)
 	@echo "Dependencies frozen to $(REQUIREMENTS)"
 
 # Run Python in virtual environment
 .PHONY: run
-run:
+run: venv
 	$(PYTHON_VENV) main.py
 
 # Show help
