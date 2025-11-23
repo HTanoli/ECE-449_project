@@ -70,6 +70,13 @@ class ScottDickController(KesslerController):
         #   and returned as the boolean 'fire'
         ship_fire['N'] = fuzz.trimf(ship_fire.universe, [-1,-1,0.0])
         ship_fire['Y'] = fuzz.trimf(ship_fire.universe, [0.0,1,1]) 
+
+        # Fuzzy Sets for Thrust and Mine ###
+        ship_thrust['Stop'] = fuzz.trimf(ship_thrust.universe, [-480, 0, 100])
+        ship_thrust['Full'] = fuzz.trimf(ship_thrust.universe, [100, 480, 480])
+        
+        ship_mine['N'] = fuzz.trimf(ship_mine.universe, [-1, -1, 0.0])
+        ship_mine['Y'] = fuzz.trimf(ship_mine.universe, [0.0, 1, 1])
                 
         #Declare each fuzzy rule
         rule1 = ctrl.Rule(bullet_time['L'] & theta_delta['NL'], (ship_turn['NL'], ship_fire['N']))
