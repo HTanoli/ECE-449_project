@@ -77,7 +77,7 @@ class ScottDickController(KesslerController):
         
         ship_mine['N'] = fuzz.trimf(ship_mine.universe, [-1, -1, 0.0])
         ship_mine['Y'] = fuzz.trimf(ship_mine.universe, [0.0, 1, 1])
-                
+                #tyadad
         #Declare each fuzzy rule
         rule1 = ctrl.Rule(bullet_time['L'] & theta_delta['NL'], (ship_turn['NL'], ship_fire['N']))
         rule2 = ctrl.Rule(bullet_time['L'] & theta_delta['NM'], (ship_turn['NM'], ship_fire['N']))
